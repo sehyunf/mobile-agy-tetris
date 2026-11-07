@@ -88,6 +88,49 @@ public class TetrisBoardView extends View {
     }
 
     /**
+     * Triggers a smooth, subtle vertical impact shake when Drop is executed.
+     */
+    public void triggerDropShake() {
+        if (shakeAnimator != null && shakeAnimator.isRunning()) {
+            shakeAnimator.cancel();
+        }
+
+        float density = getContext().getResources().getDisplayMetrics().density;
+        float maxOffset = 6.0f * density;
+        long duration = 180;
+
+        shakeAnimator = ValueAnimator.ofFloat(1f, 0f);
+        shakeAnimator.setDuration(duration);
+        shakeAnimator.setInterpolator(new DecelerateInterpolator());
+        shakeAnimator.addUpdateListener(animation -> {
+            float fraction = (float) animation.getAnimatedValue();
+            // Smooth vertical downward bounce
+            float sinVal = (float) Math.sin(fraction * Math.PI * 2f);
+            setTranslationY(sinVal * maxOffset * fraction);
+            setTranslationX(0f);
+            setRotation(0f);
+        });
+        shakeAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                resetTransforms();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                resetTransforms();
+            }
+
+            private void resetTransforms() {
+                setTranslationX(0f);
+                setTranslationY(0f);
+                setRotation(0f);
+            }
+        });
+        shakeAnimator.start();
+    }
+
+    /**
      * Triggers dynamic screen shake effect proportional to the number of lines cleared.
      * @param linesCount number of lines cleared (1 to 4)
      */

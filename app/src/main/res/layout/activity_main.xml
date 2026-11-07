@@ -236,89 +236,92 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <!-- Direction D-Pad (Left side) -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnLeft"
-                android:layout_width="60dp"
-                android:layout_height="52dp"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/bg_control_btn"
-                android:text="◀"
-                android:textColor="@color/text_primary"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/btnSoftDrop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btnSoftDrop" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSoftDrop"
-                android:layout_width="60dp"
-                android:layout_height="52dp"
-                android:layout_marginHorizontal="6dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/bg_control_btn"
-                android:text="▼"
-                android:textColor="@color/btn_soft_drop"
-                android:textSize="20sp"
+            <!-- 4-Way Directional D-Pad (Left side) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dpadLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnLeft"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnRight"
-                android:layout_width="60dp"
-                android:layout_height="52dp"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/bg_control_btn"
-                android:text="▶"
-                android:textColor="@color/text_primary"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/btnSoftDrop"
-                app:layout_constraintStart_toEndOf="@+id/btnSoftDrop"
-                app:layout_constraintTop_toTopOf="@+id/btnSoftDrop" />
+                <!-- UP: Clockwise Rotate (방향키 모양 위쪽) -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRotateCW"
+                    android:layout_width="56dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_rotate_btn"
+                    android:text="▲"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/btnSoftDrop"
+                    app:layout_constraintEnd_toEndOf="@+id/btnSoftDrop"
+                    app:layout_constraintStart_toStartOf="@+id/btnSoftDrop"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Action buttons (Right side) -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnRotateCCW"
-                android:layout_width="52dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_control_btn"
-                android:text="⟲"
-                android:textColor="@color/btn_action"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/btnHardDrop"
-                app:layout_constraintEnd_toStartOf="@+id/btnRotateCW"
-                app:layout_constraintTop_toTopOf="parent" />
+                <!-- LEFT -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnLeft"
+                    android:layout_width="56dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/bg_control_btn"
+                    android:text="◀"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnSoftDrop"
+                    app:layout_constraintEnd_toStartOf="@+id/btnSoftDrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/btnSoftDrop" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnRotateCW"
-                android:layout_width="56dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/bg_rotate_btn"
-                android:text="⟳"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/btnHardDrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <!-- DOWN: Soft Drop -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSoftDrop"
+                    android:layout_width="56dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_control_btn"
+                    android:text="▼"
+                    android:textColor="@color/btn_soft_drop"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnRight"
+                    app:layout_constraintStart_toEndOf="@+id/btnLeft"
+                    app:layout_constraintTop_toBottomOf="@+id/btnRotateCW" />
 
+                <!-- RIGHT -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRight"
+                    android:layout_width="56dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_control_btn"
+                    android:text="▶"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnSoftDrop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btnSoftDrop"
+                    app:layout_constraintTop_toTopOf="@+id/btnSoftDrop" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Prominent Hard Drop Button (Right side) -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnHardDrop"
-                android:layout_width="116dp"
-                android:layout_height="46dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
+                android:layout_width="120dp"
+                android:layout_height="76dp"
+                android:layout_marginEnd="12dp"
                 android:background="@drawable/bg_hard_drop_btn"
                 android:text="⚡ DROP"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnRotateCW" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

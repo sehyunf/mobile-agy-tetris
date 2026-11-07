@@ -127,11 +127,6 @@ public class MainActivity extends AppCompatActivity implements GameEngine.GameLi
             gameEngine.rotateClockwise();
         });
 
-        findViewById(R.id.btnRotateCCW).setOnClickListener(v -> {
-            performHaptic(v, false);
-            gameEngine.rotateCounterClockwise();
-        });
-
         findViewById(R.id.btnHardDrop).setOnClickListener(v -> {
             performHaptic(v, true);
             gameEngine.hardDrop();
@@ -299,7 +294,12 @@ public class MainActivity extends AppCompatActivity implements GameEngine.GameLi
 
     @Override
     public void onHardDrop() {
-        triggerCustomVibration(45);
+        runOnUiThread(() -> {
+            if (tetrisBoardView != null) {
+                tetrisBoardView.triggerDropShake();
+            }
+            triggerCustomVibration(45);
+        });
     }
 
     // ==========================================
