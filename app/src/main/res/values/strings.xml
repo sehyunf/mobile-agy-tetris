@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">AGY Tetris</string>
+    <string name="score_label">SCORE</string>
+    <string name="high_score_label">BEST</string>
+    <string name="level_label">LEVEL</string>
+    <string name="lines_label">LINES</string>
+    <string name="hold_label">HOLD</string>
+    <string name="next_label">NEXT</string>
+    
+    <string name="btn_pause">PAUSE</string>
+    <string name="btn_resume">RESUME</string>
+    <string name="btn_restart">RESTART</string>
+    <string name="btn_new_game">PLAY AGAIN</string>
+    
+    <string name="game_over_title">GAME OVER</string>
+    <string name="game_paused_title">PAUSED</string>
+    <string name="new_record_msg">NEW RECORD!</string>
 </resources>

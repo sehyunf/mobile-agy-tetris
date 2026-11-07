@@ -2,4 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <color name="bg_dark">#0B0C10</color>
+    <color name="surface_dark">#141722</color>
+    <color name="surface_border">#25293A</color>
+    
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#8E94A5</color>
+    <color name="text_accent">#00E5FF</color>
+    
+    <color name="btn_control_bg">#1D2130</color>
+    <color name="btn_control_stroke">#31374E</color>
+    <color name="btn_hard_drop">#FF5252</color>
+    <color name="btn_soft_drop">#FFAB00</color>
+    <color name="btn_rotate">#7C4DFF</color>
+    <color name="btn_action">#00B0FF</color>
 </resources>
