@@ -1,5 +1,8 @@
 package com.example.agytetris.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.Nullable;
 
@@ -16,6 +20,7 @@ import com.example.agytetris.model.Tetromino;
 /**
  * Custom View that renders the 10x20 Tetris board, locked blocks,
  * the ghost piece (landing preview), and the active falling piece.
+ * Includes dynamic screen shake effects on line clears.
  */
 public class TetrisBoardView extends View {
 
@@ -36,6 +41,8 @@ public class TetrisBoardView extends View {
     private float cellSize = 0f;
     private float boardOffsetX = 0f;
     private float boardOffsetY = 0f;
+
+    private ValueAnimator shakeAnimator;
 
     public TetrisBoardView(Context context) {
         super(context);
@@ -78,6 +85,64 @@ public class TetrisBoardView extends View {
         this.board = board;
         this.currentPiece = currentPiece;
         invalidate();
+    }
+
+    /**
+     * Triggers dynamic screen shake effect proportional to the number of lines cleared.
+     * @param linesCount number of lines cleared (1 to 4)
+     */
+    public void triggerShake(int linesCount) {
+        if (shakeAnimator != null && shakeAnimator.isRunning()) {
+            shakeAnimator.cancel();
+        }
+
+        float density = getContext().getResources().getDisplayMetrics().density;
+        // Base amplitude: 1 line = ~9dp, 2 lines = ~14dp, 3 lines = ~19dp, 4 lines (Tetris!) = ~25dp
+        float maxOffset = (5f + linesCount * 4.5f) * density;
+        long duration = Math.min(480, 180 + linesCount * 70);
+        float cycles = 5f + linesCount * 1.5f;
+        float maxRotation = linesCount >= 3 ? (linesCount == 4 ? 2.5f : 1.2f) : 0f;
+
+        shakeAnimator = ValueAnimator.ofFloat(1f, 0f);
+        shakeAnimator.setDuration(duration);
+        shakeAnimator.setInterpolator(new DecelerateInterpolator());
+        shakeAnimator.addUpdateListener(animation -> {
+            float fraction = (float) animation.getAnimatedValue(); // 1.0 down to 0.0
+            float sinVal = (float) Math.sin(fraction * Math.PI * 2 * cycles);
+            float cosVal = (float) Math.cos(fraction * Math.PI * 2 * cycles * 0.7f);
+
+            setTranslationX(sinVal * maxOffset * fraction);
+            setTranslationY(cosVal * (maxOffset * 0.6f) * fraction);
+            if (maxRotation > 0f) {
+                setRotation(sinVal * maxRotation * fraction);
+            }
+        });
+        shakeAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                resetTransforms();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                resetTransforms();
+            }
+
+            private void resetTransforms() {
+                setTranslationX(0f);
+                setTranslationY(0f);
+                setRotation(0f);
+            }
+        });
+        shakeAnimator.start();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (shakeAnimator != null) {
+            shakeAnimator.cancel();
+        }
     }
 
     @Override

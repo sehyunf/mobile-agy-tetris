@@ -269,8 +269,27 @@ public class MainActivity extends AppCompatActivity implements GameEngine.GameLi
 
     @Override
     public void onLinesCleared(int count) {
-        // Haptic feedback proportional to lines cleared (e.g. Quad Tetris has a bigger buzz)
-        triggerCustomVibration(count >= 4 ? 120 : 60);
+        runOnUiThread(() -> {
+            // Trigger dynamic screen shake on the board
+            if (tetrisBoardView != null) {
+                tetrisBoardView.triggerShake(count);
+            }
+
+            // Punchy scale animation on lines & score indicators
+            if (tvLines != null) {
+                tvLines.animate().scaleX(1.3f).scaleY(1.3f).setDuration(100)
+                        .withEndAction(() -> tvLines.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start())
+                        .start();
+            }
+            if (tvScore != null) {
+                tvScore.animate().scaleX(1.2f).scaleY(1.2f).setDuration(100)
+                        .withEndAction(() -> tvScore.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start())
+                        .start();
+            }
+
+            // Haptic feedback proportional to lines cleared (e.g. Quad Tetris has a bigger buzz)
+            triggerCustomVibration(count >= 4 ? 120 : 60);
+        });
     }
 
     @Override
